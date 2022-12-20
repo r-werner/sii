@@ -29,11 +29,11 @@ def unsigned16(result, addr):
 def join_msb_lsb(msb, lsb):
     return (msb << 16) | lsb
 
-def setup_sync_client():
-    """Run client setup."""
-    _logger.info("### Create client object")
-    client = ModbusSerialClient(method="rtu", port="COM7", baudrate=9600, bytesize=8, parity="N", stopbits=1, timeout=3)
-    return client
+# def setup_sync_client():
+#     """Run client setup."""
+#     _logger.info("### Create client object")
+#     client = ModbusSerialClient(method="rtu", port="COM7", baudrate=9600, bytesize=8, parity="N", stopbits=1, timeout=3)
+#     return client
 
 
 def run_sync_client(client):

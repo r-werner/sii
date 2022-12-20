@@ -81,7 +81,8 @@ class SolaXModbusHub:
     ):
         """Initialize the Modbus hub."""
         _LOGGER.info(f"solax modbushub creation with interface serial baudrate (only for serial): 9600")
-        self._client = ModbusSerialClient(method="rtu", port="COM7", baudrate=9600, parity='N', stopbits=1,
+#        self._client = ModbusSerialClient(method="rtu", port="COM7", baudrate=9600, parity='N', stopbits=1,
+        self._client = ModbusSerialClient(method="rtu", port="/dev/cu.usbserial-14210", baudrate=9600, parity='N', stopbits=1,
                                               bytesize=8, timeout=3)
         self._lock = threading.Lock()
         self._name = name
