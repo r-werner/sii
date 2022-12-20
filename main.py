@@ -252,6 +252,7 @@ def setup_entry(hub): #, async_add_entities):
 class SolaXModbusSensor():# SensorEntity):
     """Representation of an SolaX Modbus sensor."""
 
+
     def __init__(
             self,
             platform_name,
