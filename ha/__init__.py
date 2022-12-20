@@ -166,8 +166,10 @@ class SolaXModbusHub:
 
     def read_input_registers(self, unit, address, count):
         """Read input registers."""
+        # unit -> modbus address
         with self._lock:
             kwargs = {UNIT_OR_SLAVE: unit} if unit else {}
+            _LOGGER.debug(f"read_input_register Unit: {unit}, Address: {address}, Count:{count}")
             return self._client.read_input_registers(address, count, **kwargs)
 
     def _lowlevel_write_register(self, unit, address, payload):
@@ -262,10 +264,11 @@ class SolaXModbusHub:
         # if (descr.sleepmode != SLEEPMODE_LASTAWAKE) or self.awakeplugin(self.data): self.data[descr.key] = return_value
         if (descr.sleepmode != SLEEPMODE_LASTAWAKE) or self.plugin.isAwake(self.data): self.data[
             descr.key] = return_value
+        _LOGGER.debug(f"treating register 0x{descr.register:02x} : {descr.key} with result:{return_value}")
 
     def read_modbus_block(self, block, typ):
         if self.cyclecount < 5:
-            _LOGGER.error(
+            _LOGGER.debug(
                 f"{self.name} modbus {typ} block start: 0x{block.start:x} end: 0x{block.end:x}  len: {block.end - block.start} \nregs: {block.regs}")
         try:
             if typ == 'input':
