@@ -7,7 +7,7 @@ import importlib.util, sys
 import importlib
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.setLevel(logging.DEBUG)
+
 from pymodbus.client import ModbusSerialClient
 
 UNIT_OR_SLAVE = 'slave'

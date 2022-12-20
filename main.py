@@ -20,8 +20,16 @@ from ha import SolaXModbusHub, setPlugin
 from ha.const import BaseModbusSensorEntityDescription, REG_HOLDING, REGISTER_U8H, REGISTER_U8L, SLEEPMODE_NONE, \
     SLEEPMODE_ZERO, REG_INPUT, REGISTER_STR, REGISTER_WORDS, REGISTER_S32, REGISTER_U32, REGISTER_ULSB16MSB16
 
+# This sets the root logger to write to stdout (your console).
+# Your script/app needs to call this somewhere at least once.
+logging.basicConfig()
+
+# By default the root logger is set to WARNING and all loggers you define
+# inherit that value. Here we set the root logger to NOTSET. This logging
+# level is automatically inherited by all existing and new sub-loggers
+# that do not set a less verbose level.
+logging.root.setLevel(logging.NOTSET)
 _logger = logging.getLogger()
-_logger.setLevel(logging.DEBUG)
 
 def unsigned16(result, addr):
     return result.getRegister(addr)
@@ -29,17 +37,9 @@ def unsigned16(result, addr):
 def join_msb_lsb(msb, lsb):
     return (msb << 16) | lsb
 
-# def setup_sync_client():
-#     """Run client setup."""
-#     _logger.info("### Create client object")
-#     client = ModbusSerialClient(method="rtu", port="COM7", baudrate=9600, bytesize=8, parity="N", stopbits=1, timeout=3)
-#     return client
-
-
 def run_sync_client(client):
     _logger.info("### Client starting")
     pymodbus_apply_logging_config()
-    _logger.setLevel(logging.DEBUG)
 
     client.connect()
 
@@ -271,9 +271,7 @@ class SolaXModbusSensor():# SensorEntity):
 
 
 if __name__ == "__main__":
-
-    # ================== dynamically load desired plugin
-    _logger.debug(f"Ready to load plugin")
+    _logger.debug(f"---------Ready to load plugin")
     plugin = importlib.import_module(f".plugin_solax", 'ha')
     if not plugin: _logger.error(f"could not import plugin")
     setPlugin("SolaxMIC", plugin)
